@@ -1,0 +1,7 @@
+node_modules/ 
+public 
+public-build 
+*.log 
+_* 
+db.js 
+userRoles.js

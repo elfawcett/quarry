@@ -4,6 +4,7 @@
   "description": "PowerSchool data aggregation",
   "main": "quarry.js",
   "scripts": {
+    "start": "supervisor -x `n bin 0.10.36` quarry.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Eric Fawcett",

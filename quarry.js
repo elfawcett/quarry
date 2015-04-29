@@ -1,8 +1,11 @@
 /**
 * quarry - A PowerSchool data mining/aggregation tool.
 **/
-var express = require('express');
-var morgan  = require('morgan');
+var express        = require('express');
+var morgan         = require('morgan');
+var bodyParser     = require('body-parser');
+var serveStatic    = require('serve-static');
+var serveFavicon   = require('serve-favicon');
 
 var passport           = require('passport');
 var passportStrategies = require('./modules/passportStrategies');
@@ -42,11 +45,10 @@ function startServer() {
 }
 
 function configureExpress() {
-  app.use( express.favicon() );
-  app.use( express.bodyParser() );
-  app.use( express.methodOverride() );
-  app.use( app.router );
-  app.use( express.static( path.join( __dirname, 'public' )) );
+  app.use( bodyParser.urlencoded({ extended: false }) );
+  app.use( bodyParser.json() );
+
+  app.use( serveFavicon( __dirname + '/public/favicon.ico' ));
 }
 
 function configurePassport() {

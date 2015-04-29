@@ -6,6 +6,9 @@ var morgan         = require('morgan');
 var bodyParser     = require('body-parser');
 var serveStatic    = require('serve-static');
 var serveFavicon   = require('serve-favicon');
+var multer         = require('multer');
+
+var path = require('path');
 
 var passport           = require('passport');
 var passportStrategies = require('./modules/passportStrategies');
@@ -17,8 +20,16 @@ var routes = require('./routes')( app );
 
 /*==========  Middleware  ==========*/
 app.set('port', 4005 );
-app.use( configureExpress );
-app.use( configurePassport );
+
+app.set('views', path.join( __dirname, 'views' ));
+app.set('view engine', 'jade');
+
+app.use( bodyParser.urlencoded({ extended: false }) );
+app.use( bodyParser.json() );
+app.use( multer)
+app.use( serveFavicon( __dirname + '/public/favicon.ico' ));
+
+app.use( passport.initialize() );
 
 /*==========  Environment-specific  ==========*/
 if ( app.get('env') == 'production' ) {
@@ -42,15 +53,4 @@ function startServer() {
   var port    = self.address().port;
 
   console.log('\n** quarry:%s - http://%s:%s **\n', env, address, port );
-}
-
-function configureExpress() {
-  app.use( bodyParser.urlencoded({ extended: false }) );
-  app.use( bodyParser.json() );
-
-  app.use( serveFavicon( __dirname + '/public/favicon.ico' ));
-}
-
-function configurePassport() {
-  app.use( passport.initialize() );
 }

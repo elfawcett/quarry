@@ -15,9 +15,6 @@ var passportStrategies = require('./modules/passportStrategies');
 
 var app = express();
 
-/*==========  Routes  ==========*/
-var routes = require('./routes')( app );
-
 /*==========  Middleware  ==========*/
 app.set('port', 4005 );
 
@@ -26,7 +23,7 @@ app.set('view engine', 'jade');
 
 app.use( bodyParser.urlencoded({ extended: false }) );
 app.use( bodyParser.json() );
-app.use( multer)
+app.use( multer() );
 app.use( serveFavicon( __dirname + '/public/favicon.ico' ));
 
 app.use( passport.initialize() );
@@ -40,6 +37,9 @@ if ( app.get('env') == 'development' ) {
   app.set('port', 3012 );
   app.use( morgan('dev') );
 }
+
+/*==========  Routes  ==========*/
+var routes = require('./routes')( app );
 
 /*==========  Start listening  ==========*/
 app.listen( app.get('port'), startServer );

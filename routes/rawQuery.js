@@ -24,10 +24,11 @@
   *
   **/
   function getQ( req, res ) {
-    res.send('hi there')
+    res.render('rawQuery', { body: {} });
   }
 
   function postQ( req, res ) {
-    res.send( req.body );
+    console.log( req.body )
+    res.render('rawQuery', { body: req.body, results: ['hi','there','cats'] });
   }
 })();

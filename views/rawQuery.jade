@@ -1,0 +1,18 @@
+extends layout.jade
+
+
+block content
+  - var query = ( body.hasOwnProperty('query') ) ? body.query : '';
+
+  h2 Raw query
+  form(action="/q", method="POST", name="rawQuery")
+    textarea(name="query", cols="30", rows="10") #{ query }
+    br
+    input(type="submit", value="Submit")
+
+  hr
+  if ( results )
+    ul
+    each result, i in results
+      li
+        p= result

@@ -6,9 +6,12 @@ block content
 
   h2 Raw query
   form(action="/q", method="POST", name="rawQuery")
-    textarea(name="query", cols="30", rows="10") #{ query }
+    textarea(name="query", cols="90", rows="15") #{ query }
     br
     input(type="submit", value="Submit")
+  br
+  if ( err )
+    p= err
 
   hr
   if ( results )

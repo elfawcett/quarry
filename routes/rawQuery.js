@@ -4,9 +4,13 @@
   /**
   *
   * Raw PS queries route module
+  * This is pretty cool.  Wherever this module is mounted by the calling require() (/q in this case),
+  * the paths become relative.  So in this module we define '/', but that actually ends up being '/q'
   **/
   var express = require('express');
   var router  = express.Router();
+
+  var _q = require('../modules/queries');
 
   router.get('/', getQ );
   router.post('/', postQ );
@@ -28,7 +32,17 @@
   }
 
   function postQ( req, res ) {
-    console.log( req.body )
-    res.render('rawQuery', { body: req.body, results: ['hi','there','cats'] });
+    var query = ( req.body.hasOwnProperty('query') ) ? req.body.query : '';
+    query = query.replace( /\r\n/g, ' ' );
+
+    _q.rawQuery( query )
+      .then( function( results ) {
+        console.log( results )
+        res.render('rawQuery', { body: req.body, results: results.rows });
+      })
+      .catch( function( err ) {
+        res.status( 500 ).render('rawQuery', { body: req.body, err: err.message });
+      })
+    ;
   }
 })();

@@ -4,6 +4,8 @@
 var express = require('express');
 var morgan  = require('morgan');
 
+var passport           = require('passport');
+var passportStrategies = require('./modules/passportStrategies');
 
 var app = express();
 
@@ -12,6 +14,8 @@ var routes = require('./routes')( app );
 
 /*==========  Middleware  ==========*/
 app.set('port', 4005 );
+app.use( configureExpress );
+app.use( configurePassport );
 
 /*==========  Environment-specific  ==========*/
 if ( app.get('env') == 'production' ) {
@@ -35,4 +39,16 @@ function startServer() {
   var port    = self.address().port;
 
   console.log('\n** quarry:%s - http://%s:%s **\n', env, address, port );
+}
+
+function configureExpress() {
+  app.use( express.favicon() );
+  app.use( express.bodyParser() );
+  app.use( express.methodOverride() );
+  app.use( app.router );
+  app.use( express.static( path.join( __dirname, 'public' )) );
+}
+
+function configurePassport() {
+  app.use( passport.initialize() );
 }

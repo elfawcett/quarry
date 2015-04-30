@@ -38,7 +38,8 @@
     _q.rawQuery( query )
       .then( function( results ) {
         console.log( results )
-        res.render('rawQuery', { body: req.body, results: results.rows });
+
+        res.render('rawQuery', { body: req.body, results: results.parsedResults, columns: results.selectedColumns });
       })
       .catch( function( err ) {
         res.status( 500 ).render('rawQuery', { body: req.body, err: err.message });

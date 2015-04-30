@@ -1,12 +1,12 @@
 extends layout.jade
-
+block css
 
 block content
   - var query = ( body.hasOwnProperty('query') ) ? body.query : '';
 
   h2 Raw query
-  form(action="/q", method="POST", name="rawQuery")
-    textarea(name="query", cols="90", rows="15") #{ query }
+  form#queryForm(action="/q", method="POST", name="rawQuery")
+    textarea#query(name="query", cols="90", rows="15") #{ query }
     br
     input(type="submit", value="Submit")
   br
@@ -15,7 +15,27 @@ block content
 
   hr
   if ( results )
-    ul
-    each result, i in results
-      li
-        p= result
+    table
+      thead
+        tr
+          each column, i in columns
+            th= column
+      tbody
+        each result, i in results
+          tr
+            each value, i in result
+              td= value
+
+  script(type="text/javascript").
+    document.getElementById('query').focus();
+
+    document.getElementById('query').addEventListener('keydown', ctrlEnterSubmit );
+
+    function ctrlEnterSubmit( e ) {
+      if ( e.ctrlKey && e.keyCode === 13 ) {
+        document.getElementById('queryForm').submit();
+        return;
+      }
+
+      return;
+    }

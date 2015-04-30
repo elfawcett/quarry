@@ -25,6 +25,7 @@ app.use( bodyParser.urlencoded({ extended: false }) );
 app.use( bodyParser.json() );
 app.use( multer() );
 app.use( serveFavicon( __dirname + '/public/favicon.ico' ));
+app.use( serveStatic('public' ));
 
 app.use( passport.initialize() );
 

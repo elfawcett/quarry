@@ -1,0 +1,282 @@
+body {
+  padding: 16px 8px;
+  font: 14px "Lucida Grande", Helvetica, Arial, sans-serif;
+}
+
+p,
+h1, h2, h3, h4, h5, h6 {
+  margin-bottom: 0.3em;
+}
+
+a {
+  color: #00B7FF;
+  text-decoration: none;
+}
+
+form input,
+form select,
+form textarea {
+  display: block;
+}
+
+form textarea {
+  width: 100%;
+}
+
+
+.form-controls {
+  display: inline-block;
+  padding: 8px 0;
+  margin-right: 8px;
+  vertical-align: top;
+}
+
+.form-controls label {
+  font-weight: bold;
+}
+
+.form-actions {
+  display: block;
+  padding: 8px 0;
+}
+
+.container {
+  display: inline-block;
+  clear: both;
+  width: 100%;
+}
+
+.half-width {
+  width: 48%;
+}
+
+.quarter-width {
+  width: 22.5%;
+}
+
+.content,
+.content-left,
+.content-right {
+  display: inline-block;
+  float: left;
+}
+
+.content-left {
+  max-width: 225px;
+  padding-right: 8px;
+  border: solid 1px black;
+  border-width: 0 1px 0 0;
+}
+
+.content-right {
+  /*width: 500px;*/
+  max-width: 600px;
+  padding-left: 8px;
+}
+
+.content-right > *:first-child {
+  margin-top: 0;
+}
+
+li {
+}
+
+li > a {
+  display: block;
+  padding: 8px;
+}
+
+li.active,
+li > a:hover,
+li > a:hover > span {
+  background-color: #555 !important;
+  color: white !important;
+}
+
+ul.unstyled {
+  padding: 0;
+  margin: 0;
+}
+
+ul.unstyled > li {
+  list-style: none;
+}
+
+h1 small, h2 small, h3 small,
+h4 small, h5 small, h6 small {
+  padding-left: 8px;
+  font-size: 70%;
+}
+
+a.unstyled {
+  /*color: inherit;*/
+}
+
+table {
+  border-collapse: collapse;
+  /*min-width: 500px;*/
+  width: 100%;
+}
+
+table.hover-table {
+  overflow: hidden;
+  z-index: 0;
+}
+
+table > thead > tr > th,
+table > tbody > tr > td {
+  border: solid 1px #aaa;
+  padding: 8px 4px;
+}
+
+table > tbody > tr > td {
+  text-align: center;
+}
+
+table > thead > tr > th:first-child {
+  /*border-width: 0;*/
+}
+
+table > thead > tr > th:last-child,
+table > thead > tr > th:last-child {
+  /*border-width: 1px 1px 1px 2px;*/
+}
+
+table > tbody > tr > td:first-child {
+  /*text-align: left;*/
+}
+
+table > tbody > tr > td:last-child {
+  /*border-width: 1px 1px 1px 2px;*/
+}
+
+table > thead > tr > th {
+  /*min-width: 50px;*/
+}
+
+.hover-table tr:hover {
+  background-color: #adf;
+  /*color: white;*/
+}
+
+/* Column highlights */
+.hover-table th, td {
+  position: relative;
+}
+
+.hover-table th:hover::after,
+.hover-table td:hover::after {
+  content: '';
+  background-color: #adf;
+  position: absolute;
+  left: 0;
+  top: -1000px;
+  height: 2000px;
+  width: 100%;
+  z-index: -1;
+}
+
+.hover-table td:hover {
+  background-color: #aaddaa;
+}
+
+table > tbody > tr > td.align-left {
+  text-align: left;
+}
+
+table > tbody > tr > td.align-right {
+  text-align: right;
+}
+
+table > tbody > tr > td.align-center {
+  text-align: center;
+}
+
+table > tbody > tr.totalLine {
+  border: solid 2px black;
+  border-width: 2px 0 2px 0;
+  font-weight: bold;
+  color: #058;
+}
+
+table.condensed {
+  font-size: 12px;
+}
+
+table.condensed > thead > tr > th,
+table.condensed > tbody > tr > td {
+  border: solid 1px #aaa;
+  padding: 4px 2px;
+}
+
+table.condensed > tbody > tr > td:first-child {
+  font-weight: bold;
+}
+
+table.condensed > thead > tr > th.thickLeft,
+table.condensed > tbody > tr > td.thickLeft {
+  border-width: 1px 1px 1px 2px;
+}
+
+table.condensed > thead > tr > th {
+  min-width: 0;
+}
+
+table.condensed > thead > tr > th:last-child,
+table.condensed > tbody > tr > td:last-child {
+  border-width: 1px 1px 1px 2px;
+}
+
+td.leftBorderOnly,
+table.condensed > tbody > tr > td.leftBorderOnly {
+  border-width: 0 0 0 1px;
+}
+
+#courseList {
+  display: inline-block;
+  max-height: 300px;
+  overflow-y: scroll;
+  overflow-x: hidden;
+  /*background-color: #f0f0f0;*/
+  /*border: solid 1px black;*/
+  /*border-width: 0 0 0 2px;*/
+  /*padding: 0 0 0 4px;*/
+}
+
+#courseList table {
+  font-size: 12px;
+  cursor: pointer;
+}
+
+.selected {
+  background-color: #555;
+  color: white;
+}
+
+.not-selected {
+  background-color: inherit;
+  color: inherit;
+}
+
+@media( max-width: 767px ) {
+  .content-left {
+    max-height: 150px;
+    overflow-y: scroll;
+  }
+
+  .content-left > ul {
+    height: 100000px;
+    font-size: 11px;
+  }
+
+  .content-left > ul > li {
+  }
+
+  .half-width {
+    width: 100%;
+  }
+
+  .quarter-width {
+    width: 100%;
+  }
+}

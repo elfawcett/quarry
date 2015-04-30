@@ -23,6 +23,13 @@ form textarea {
   width: 100%;
 }
 
+pre.error-box {
+  display: inline-block;
+  width: 100%;
+  background-color: #efefef;
+  white-space: normal;
+}
+
 
 .form-controls {
   display: inline-block;
@@ -130,7 +137,7 @@ table > tbody > tr > td {
 }
 
 table > tbody > tr > td {
-  text-align: center;
+  /*text-align: center;*/
 }
 
 table > thead > tr > th:first-child {

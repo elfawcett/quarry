@@ -33,7 +33,7 @@
 
   function postQ( req, res ) {
     var query = ( req.body.hasOwnProperty('query') ) ? req.body.query : '';
-    query = query.replace( /\r\n/g, ' ' );
+    // query = query.replace( /\r\n/g, ' ' );
 
     _q.rawQuery( query )
       .then( function( results ) {
@@ -42,7 +42,7 @@
         res.render('rawQuery', { body: req.body, results: results.parsedResults, columns: results.selectedColumns });
       })
       .catch( function( err ) {
-        res.status( 500 ).render('rawQuery', { body: req.body, err: err.message });
+        res.status( 500 ).render('rawQuery', { body: req.body, err: err });
       })
     ;
   }

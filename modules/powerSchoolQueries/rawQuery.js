@@ -83,17 +83,34 @@
         return;
       }
 
+      // Adjust the sql string
+      // Check for block commenting
+      var split = '';
+      if ( sql.indexOf('/--') !== -1 && sql.indexOf('--/') !== -1 ) {
+        split = sql.split('/--');
+        if ( String( split[0] ).trim().length > 0 ) {
+          split = String( split[0].split('--/')[1] ).trim();
+        } else {
+          split = String( split[1].split('--/')[1] ).trim();
+        }
+      }
+
+      sql = ( split.length > 1 ) ? split : sql;
+
       // Execute query
       // .execute( sql, bindablesObject, optionsObject, callback )
       connection.execute( sql, {}, { maxRows: 100000 }, function( err, results ) {
         if ( err ) {
-          deferred.reject( err );
+          deferred.reject({ err: err, sql: sql });
           return;
         }
 
         // Set a placeholder for parsedResults and selectedColumns
         results.parsedResults   = [];
         results.selectedColumns = [];
+
+        // Stick the statement on there too
+        results.sql = sql;
 
         // Parse the results against metaData I guess in order send an array of objects
         if ( results.hasOwnProperty('rows') ) {

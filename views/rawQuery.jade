@@ -5,13 +5,16 @@ block content
   - var query = ( body.hasOwnProperty('query') ) ? body.query : '';
 
   h2 Raw query
+  p Supports block commenting: /-- and --/
   form#queryForm(action="/q", method="POST", name="rawQuery")
     textarea#query(name="query", cols="90", rows="15") #{ query }
     br
     input(type="submit", value="Submit")
   br
   if ( err )
-    p= err
+    p
+      strong= err.err
+    pre.error-box= err.sql
 
   hr
   if ( results )

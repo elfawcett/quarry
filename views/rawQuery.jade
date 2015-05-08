@@ -14,6 +14,7 @@ block content
         button#saveQuery Save Query
     .content.half-width
       h4 Saved queries
+      ul#savedQueries
     form#queryForm(action="/q", method="POST", name="rawQuery")
       textarea#query(name="query", cols="90", rows="15") #{ query }
       br
@@ -42,6 +43,8 @@ block content
     document.getElementById('query').addEventListener('keydown', ctrlEnterSubmit );
     document.getElementById('saveQuery').addEventListener('click', saveQuery );
 
+    listQueries();
+
     function ctrlEnterSubmit( e ) {
       if ( e.ctrlKey && e.keyCode === 13 ) {
         document.getElementById('queryForm').submit();
@@ -57,8 +60,40 @@ block content
 
       setCookie( name, sql );
       document.getElementById('queryName').value = '';
+
+      listQueries();
     }
 
     function listQueries() {
-      getAllCookies();
+      var ul = document.getElementById('savedQueries');
+      var queries = getAllCookies();
+
+      while ( ul.firstChild ) {
+        ul.removeChild( ul.firstChild );
+      }
+
+      for ( var key in queries ) {
+        var queryName = queries[ key ].queryName;
+        var query     = queries[ key ].query;
+        var liID      = queryName + key;
+
+        // Create a fragment
+        var html = '<li>'
+        +   '<button id="' + liID + '" onclick="useQuery(\'' + queryName + '\')">' + queryName + '</button>'
+        +   '<button id="' + liID + '-remove" onclick="removeQuery(\'' + queryName + '\')"">Remove</button>'
+        + '</li>';
+        var li = createFragment( html );
+
+        // Append to ul
+        ul.appendChild( li );
+      }
+    }
+
+    function useQuery( queryName ) {
+      document.getElementById('query').value = getCookie( queryName );
+    }
+
+    function removeQuery( queryName ) {
+      deleteCookie( queryName );
+      listQueries();
     }

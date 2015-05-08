@@ -7,3 +7,116 @@ html
     block css
   body
     block content
+
+  //- LocalStorage
+  script(type="text/javascript").
+    // checks for localStorage support
+    function supports_html5_storage() {
+      try {
+        return 'localStorage' in window && window['localStorage'] !== null;
+      } catch (e) {
+        return false;
+      }
+    }
+
+    // cookie/localStorage handling
+    function setCookie(name, value, hours) {
+      var expiration = new Date();
+      expiration.setHours(expiration.getHours() + hours);
+      var cookieExpires = (hours == null)
+        ? ''
+        : '; expires=' + expiration.toUTCString()
+      ;
+
+      var value = (typeof value != 'string') ? JSON.stringify(value) : value;
+      var cookie = escape(value) + cookieExpires;
+
+      if (!supports_html5_storage()) {
+        document.cookie = name + '=' + cookie;
+      } else {
+        // localStorage saving
+        localStorage.setItem(name, cookie);
+      }
+    }
+
+    function getCookie(name) {
+      var i, x, y, Cookies;
+      if (!supports_html5_storage()) {
+        Cookies = document.cookie.split(';');
+        // console.log('getCookie cookie')
+      } else {
+        Cookies = localStorage.getItem(name);
+        if (!Cookies) {
+          return false;
+        } else {
+          Cookies = Cookies.split(';');
+        }
+      }
+
+      for (i = 0; i < Cookies.length; i++) {
+        if (!supports_html5_storage()) {
+          x = Cookies[i].substr(0, Cookies[i].indexOf('='));
+          x = x.replace(/^\s+|\s+$/g, '');
+        } else {
+          // feels like we're just forcing the hand here.  oh well!
+          x = name;
+        }
+
+        y = Cookies[i].substr(Cookies[i].indexOf('=') + 1);
+        if (x == name) {
+          var result = unescape(y);
+          result = JSON.parse(result);
+          if (supports_html5_storage()) {
+            result.storageType = 'local storage';
+          }
+          return result;
+        } else {
+          return false;
+        }
+      }
+    }
+
+    function getAllCookies() {
+      var returnCookies = [];
+      var Cookies;
+      var x;
+      var y;
+
+      if ( !supports_html5_storage() ) {
+        Cookies = document.cookie.split(';');
+      } else {
+        Cookies = localStorage;
+      }
+
+      // This is only going to work for localStorage at the moment
+      if (!supports_html5_storage()) {
+        for (i = 0; i < Cookies.length; i++) {
+          x = Cookies[i].substr(0, Cookies[i].indexOf('='));
+          x = x.replace(/^\s+|\s+$/g, '');
+
+          y = Cookies[i].substr(Cookies[i].indexOf('=') + 1);
+
+          returnCookies.push({ queryName: x, query: y });
+        }
+      } else {
+        for ( var key in Cookies ) {
+          if ( key !== 'length' ) {
+            x = key;
+            y = Cookies[ key ].substr(Cookies[ key ].indexOf('=') + 1);
+
+            returnCookies.push({ queryName: x, query: y });
+          }
+        }
+      }
+
+      return returnCookies;
+    }
+
+    function deleteCookie(name) {
+      if (!supports_html5_storage()) {
+        setCookie(name, '', -24);
+      } else {
+        // localStorage deleting
+        localStorage.removeItem(name);
+      }
+    }

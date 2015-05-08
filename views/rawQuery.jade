@@ -4,35 +4,43 @@ block css
 block content
   - var query = ( body.hasOwnProperty('query') ) ? body.query : '';
 
-  h2 Raw query
-  p Supports block commenting: /-- and --/
-  form#queryForm(action="/q", method="POST", name="rawQuery")
-    textarea#query(name="query", cols="90", rows="15") #{ query }
+  .container
+    h2 Raw query
+    .content.half-width
+      p Supports block commenting: /-- and --/
+      p
+        label(for="queryName") Query Name:&nbsp;
+        input#queryName(type="text")
+        button#saveQuery Save Query
+    .content.half-width
+      h4 Saved queries
+    form#queryForm(action="/q", method="POST", name="rawQuery")
+      textarea#query(name="query", cols="90", rows="15") #{ query }
+      br
+      input(type="submit", value="Submit")
     br
-    input(type="submit", value="Submit")
-  br
-  if ( err )
-    p
-      strong= err.err
-    pre.error-box= err.sql
+    if ( err )
+      p
+        strong= err.err
+      pre.error-box= err.sql
 
-  hr
-  if ( results )
-    table
-      thead
-        tr
-          each column, i in columns
-            th= column
-      tbody
-        each result, i in results
+    hr
+    if ( results )
+      table
+        thead
           tr
-            each value, i in result
-              td= value
+            each column, i in columns
+              th= column
+        tbody
+          each result, i in results
+            tr
+              each value, i in result
+                td= value
 
   script(type="text/javascript").
     document.getElementById('query').focus();
-
     document.getElementById('query').addEventListener('keydown', ctrlEnterSubmit );
+    document.getElementById('saveQuery').addEventListener('click', saveQuery );
 
     function ctrlEnterSubmit( e ) {
       if ( e.ctrlKey && e.keyCode === 13 ) {
@@ -41,4 +49,16 @@ block content
       }
 
       return;
+    }
+
+    function saveQuery() {
+      var sql  = document.getElementById('query').value;
+      var name = document.getElementById('queryName').value;
+
+      setCookie( name, sql );
+      document.getElementById('queryName').value = '';
+    }
+
+    function listQueries() {
+      getAllCookies();
     }

@@ -34,12 +34,18 @@
   function postQ( req, res ) {
     var query = ( req.body.hasOwnProperty('query') ) ? req.body.query : '';
     // query = query.replace( /\r\n/g, ' ' );
+    var layout = ( req.body.hasOwnProperty('useComma') ) ? req.body.useComma : 'table';
 
     _q.rawQuery( query )
       .then( function( results ) {
         // console.log( results )
 
-        res.render('rawQuery', { body: req.body, results: results.parsedResults, columns: results.selectedColumns });
+        res.render('rawQuery', {
+          body    : req.body
+        , results : results.parsedResults
+        , columns : results.selectedColumns
+        , layout  : layout
+        });
       })
       .catch( function( err ) {
         res.status( 500 ).render('rawQuery', { body: req.body, err: err });

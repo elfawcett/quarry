@@ -18,6 +18,9 @@ block content
     form#queryForm(action="/q", method="POST", name="rawQuery")
       textarea#query(name="query", cols="90", rows="15") #{ query }
       br
+      label(for="useComma")
+        input#useComma(type="checkbox", name="useComma", value="comma")
+        | Use comma-separated results.
       input(type="submit", value="Submit")
     br
     if ( err )
@@ -27,16 +30,23 @@ block content
 
     hr
     if ( results )
-      table
-        thead
-          tr
-            each column, i in columns
-              th= column
-        tbody
-          each result, i in results
+      if ( layout == 'table' )
+        table
+          caption Results: <strong style="color: blue">#{ results.length }</strong>
+          thead
             tr
-              each value, i in result
-                td= value
+              each column, i in columns
+                th= column
+          tbody
+            each result, i in results
+              tr
+                each value, i in result
+                  td= value
+      if ( layout == 'comma' )
+        textarea(cols="90", rows="15")
+          each result, i in results
+            each value, i in result
+              | #{ value },
 
   script(type="text/javascript").
     document.getElementById('query').focus();

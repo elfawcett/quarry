@@ -23,6 +23,10 @@ form textarea {
   width: 100%;
 }
 
+form input[type="checkbox"] {
+  display: inline-block;
+}
+
 pre.error-box {
   display: inline-block;
   width: 100%;

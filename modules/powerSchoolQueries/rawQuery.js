@@ -114,6 +114,10 @@
 
         // Parse the results against metaData I guess in order send an array of objects
         if ( results.hasOwnProperty('rows') ) {
+          if ( typeof results.rows === 'undefined' ) {
+            results.rows = [];
+          }
+
           var parsedResults = [];
 
           results.rows.forEach( function( row ) {

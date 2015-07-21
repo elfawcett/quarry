@@ -23,6 +23,10 @@ block content
         | Use comma-separated results.
       input(type="submit", value="Submit")
     br
+
+    em Every 25th row will be highlighted in gray.
+
+
     if ( err )
       p
         strong= err.err
@@ -31,22 +35,38 @@ block content
     hr
     if ( results )
       if ( layout == 'table' )
-        table
+        button#selectTable Select Table
+        table#resultsTable
           caption Results: <strong style="color: blue">#{ results.length }</strong>
           thead
             tr
               each column, i in columns
-                th= column
+                if ( column === 'SPACER' )
+                  th.spacer= column
+                else
+                  th= column
           tbody
             each result, i in results
-              tr
-                each value, i in result
-                  td= value
+              if ( i % 25 === 0 )
+                tr.line25
+                  each value, i in result
+                    if ( value === '...' )
+                      td.spacer
+                    else
+                      td= value
+              else
+                tr
+                  each value, i in result
+                    if ( value === '...' )
+                      td.spacer
+                    else
+                      td= value
       if ( layout == 'comma' )
         textarea(cols="90", rows="15")
           each result, i in results
             each value, i in result
               | #{ value },
+            | &#013;&#010;
 
   script(type="text/javascript").
     document.getElementById('query').focus();
@@ -54,6 +74,23 @@ block content
     document.getElementById('saveQuery').addEventListener('click', saveQuery );
 
     listQueries();
+
+    var button = document.getElementById('selectTable');
+    var el     = document.getElementById('resultsTable');
+
+    if ( button ) {
+      button.addEventListener('click', selectTable );
+    }
+
+    // Functions
+    function selectTable() {
+      var range  = document.createRange();
+      range.selectNode( el );
+
+      var selection = window.getSelection();
+      selection.removeAllRanges();
+      selection.addRange( range );
+    }
 
     function ctrlEnterSubmit( e ) {
       if ( e.ctrlKey && e.keyCode === 13 ) {

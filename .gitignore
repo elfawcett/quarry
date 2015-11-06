@@ -3,3 +3,5 @@ node_modules/
 _* 
 db.js 
 userRoles.js
+*.txt
+

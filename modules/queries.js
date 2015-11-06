@@ -1,7 +1,7 @@
 /**
  * SQL queries
  */
-var DB_powerSchool = require('../db.js').powerSchool;
+// var DB_powerSchool = require('../db.js').powerSchool;
 
 /**
  * Exports

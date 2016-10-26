@@ -38,8 +38,6 @@
 
     _q.rawQuery( query )
       .then( function( results ) {
-        // console.log( results )
-
         res.render('rawQuery', {
           body    : req.body
         , results : results.parsedResults

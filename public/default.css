@@ -277,6 +277,10 @@ table.condensed > tbody > tr > td.leftBorderOnly {
   background-color: rgb( 230, 230, 230 );
 }
 
+#resultsTable {
+  font-size: 12px;
+}
+
 @media( max-width: 767px ) {
   .content-left {
     max-height: 150px;

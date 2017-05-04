@@ -1,7 +1,7 @@
-node_modules/ 
-*.log 
-_* 
-db.js 
+node_modules/
+*.log
+_*
+db.js
 userRoles.js
 *.txt
-
+.vscode/

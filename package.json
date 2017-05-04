@@ -5,7 +5,8 @@
   "main": "quarry.js",
   "scripts": {
     "start": "supervisor -x `n bin 0.10.36` quarry.js",
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "debug": "n bin 0.10.36 quarry.js"
   },
   "author": "Eric Fawcett",
   "license": "ISC",
@@ -19,7 +20,7 @@
     "jade": "*",
     "morgan": "~1.5.1",
     "multer": "~0.1.7",
-    "oracledb": "~1.3.0",
+    "oracledb": "~1.13.0",
     "passport": "~0.2.1",
     "passport-http": "~0.2.2",
     "passport-local": "~1.0.0",

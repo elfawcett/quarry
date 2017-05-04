@@ -165,6 +165,10 @@ table > thead > tr > th {
   /*min-width: 50px;*/
 }
 
+table > caption {
+  text-align: left;
+}
+
 .hover-table tr:hover {
   background-color: #adf;
   /*color: white;*/

@@ -24,8 +24,8 @@ app.set('view engine', 'jade');
 app.use( bodyParser.urlencoded({ extended: false }) );
 app.use( bodyParser.json() );
 app.use( multer() );
-app.use( serveFavicon( __dirname + '/public/favicon.ico' ));
-app.use( serveStatic('public' ));
+app.use( serveFavicon( path.join( __dirname, '/public/favicon.ico' ) ));
+app.use( serveStatic( path.join( __dirname, 'public' ) ));
 
 app.use( passport.initialize() );
 

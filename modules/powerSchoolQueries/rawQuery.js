@@ -84,8 +84,6 @@
     /* Store the prettified sql */
     var originalSQL = sql
 
-    console.log(originalSQL)
-
     DB_powerSchool(function(err, connection) {
       if (err) {
         deferred.reject(err)

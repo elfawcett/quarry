@@ -97,7 +97,7 @@ html
           }
         } else {
           for ( var key in Cookies ) {
-            if ( key !== 'length' ) {
+            if ( key !== 'length' && typeof Cookies[key] === 'string' ) {
               x = key;
               y = Cookies[ key ].substr(Cookies[ key ].indexOf('=') + 1);
 

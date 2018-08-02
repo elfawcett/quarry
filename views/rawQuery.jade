@@ -2,11 +2,7 @@ extends layout.jade
 block css
 
 block content
-<<<<<<< HEAD
   - var query = sql ? sql : body.hasOwnProperty('query') ? body.query : ''
-=======
-  - var query = sql ? sql : req.body.hasOwnProperty('query') ? req.body.query : ''
->>>>>>> 9b9d141635429375068e9975f456bbdb6693d049
 
   .container
     h2 Raw query

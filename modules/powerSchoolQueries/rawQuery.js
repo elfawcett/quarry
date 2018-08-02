@@ -1,14 +1,14 @@
-( function() {
-  'use strict';
+;(function() {
+  'use strict'
 
-  var Q              = require('q');
-  var DB_powerSchool = require('../../db.js').powerSchool;
+  var Q = require('q')
+  var DB_powerSchool = require('../../db.js').powerSchool
+  var sqlString = require('../sqlString.js')
 
   /**
-  * Exports
-  **/
-  module.exports = rawQuery;
-
+   * Exports
+   **/
+  module.exports = rawQuery
 
   // // Array syntax
   // var select = [
@@ -74,88 +74,83 @@
 
   /*==========  Functions  ==========*/
   // Selects attendance for all home schools, AM and PM, WSL and BF
-  function rawQuery( sql ) {
-    var deferred = Q.defer();
+  function rawQuery(sql) {
+    var deferred = Q.defer()
 
-    DB_powerSchool( function( err, connection ) {
-      if ( err ) {
-        deferred.reject( err );
-        return;
+    /* Make the SQL string a bit more readable */
+    sql = sqlString.capitalizeKeywords(sql)
+    sql = sqlString.extraReturns(sql)
+
+    /* Store the prettified sql */
+    var originalSQL = sql
+
+    console.log(originalSQL)
+
+    DB_powerSchool(function(err, connection) {
+      if (err) {
+        deferred.reject(err)
+        return
       }
 
-      // Adjust the sql string
-      // Check for block commenting
-      var split = '';
-      if ( sql.indexOf('/--') !== -1 && sql.indexOf('--/') !== -1 ) {
-        split = sql.split('/--');
-        if ( String( split[0] ).trim().length > 0 ) {
-          split = String( split[0].split('--/')[1] ).trim();
-        } else {
-          split = String( split[1].split('--/')[1] ).trim();
-        }
-      }
-
-      sql = ( split.length > 1 ) ? split : sql;
+      /* Manipulate the SQL input string */
+      sql = sqlString.blockComment(sql)
 
       // Execute query
       // .execute( sql, bindablesObject, optionsObject, callback )
-      connection.execute( sql, {}, { maxRows: 100000 }, function( err, results ) {
-        if ( err ) {
-          deferred.reject({ err: err, sql: sql });
-          return;
+      connection.execute(sql, {}, { maxRows: 100000 }, function(err, results) {
+        if (err) {
+          deferred.reject({ err: err, sql: sql })
+          return
         }
 
         // Set a placeholder for parsedResults and selectedColumns
-        results.parsedResults   = [];
-        results.selectedColumns = [];
+        results.parsedResults = []
+        results.selectedColumns = []
 
         // Stick the statement on there too
-        results.sql = sql;
+        results.sql = originalSQL
 
         // Parse the results against metaData I guess in order send an array of objects
-        if ( results.hasOwnProperty('rows') ) {
-          if ( typeof results.rows === 'undefined' ) {
-            results.rows = [];
+        if (results.hasOwnProperty('rows')) {
+          if (typeof results.rows === 'undefined') {
+            results.rows = []
           }
 
-          var parsedResults = [];
+          var parsedResults = []
 
-          results.rows.forEach( function( row ) {
-            var tempObj = {};
+          results.rows.forEach(function(row) {
+            var tempObj = {}
 
             // Each row is a dumb array of values
-            row.forEach( function( value, i ) {
-              var colName = ( results.hasOwnProperty('metaData') ) ? results.metaData[ i ].name : 'unknownCol';
-              tempObj[ colName ] = value;
+            row.forEach(function(value, i) {
+              var colName = results.hasOwnProperty('metaData') ? results.metaData[i].name : 'unknownCol'
+              tempObj[colName] = value
 
               // Add column name to selectedColumns if it doesn't exist
-              if ( results.selectedColumns.indexOf( colName ) === -1 ) {
-                results.selectedColumns.push( colName );
+              if (results.selectedColumns.indexOf(colName) === -1) {
+                results.selectedColumns.push(colName)
               }
-            });
+            })
 
             // Add tempObj to parsedResults
-            parsedResults.push( tempObj );
-          });
+            parsedResults.push(tempObj)
+          })
 
           // Attach parsedResults to results object
-          results.parsedResults = parsedResults;
+          results.parsedResults = parsedResults
         }
 
-
-        deferred.resolve( results );
+        deferred.resolve(results)
 
         // Release connection
-        connection.release( function( err ) {
-          if ( err ) {
-            console.log( err );
+        connection.release(function(err) {
+          if (err) {
+            console.log(err)
           }
-        });
-      });
+        })
+      })
+    })
 
-    });
-
-
-    return deferred.promise;
+    return deferred.promise
   }
-})();
+})()

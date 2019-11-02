@@ -18,7 +18,7 @@
     "express": "~4.11.1",
     "express-session": "~1.10.1",
     "jade": "*",
-    "morgan": "~1.5.1",
+    "morgan": "~1.9.1",
     "multer": "~0.1.7",
     "oracledb": "~1.13.0",
     "passport": "~0.2.1",
